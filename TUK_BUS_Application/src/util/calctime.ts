@@ -34,15 +34,10 @@ export const CalcArrivalTime = (time: string, remain: number): string => {
 
 export const checkDest = (dest: '등교' | '하교'): 0 | 1 | 2 => {
   const day: string = moment().format('ddd');
-  switch (day) {
-    case 'Sat' || 'Sun': {
-      const flag = 0;
-      return flag;
-    }
-    default: {
-      break;
-    }
+  if (day === 'Sat' || 'Sun') {
+    return 0;
   }
+
   switch (dest) {
     case '등교': {
       const flag = checkHour_Univ();
