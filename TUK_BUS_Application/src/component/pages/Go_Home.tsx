@@ -51,7 +51,7 @@ export function GoHome(): ReactElement {
     setLoading(false);
   };
 
-  const getKakaoFutureRouteSearch = async (schedule: liveSchedule) => {
+  const getKakaoFutureRouteSearch = (schedule: liveSchedule) => {
     let duration: number[] = [];
     setHome_Bustime([]);
     if (schedule.Bus_schedule.length === 0) {
@@ -59,35 +59,52 @@ export function GoHome(): ReactElement {
       setLoading(false);
       return;
     }
-    for (let i = 0; i < schedule.Bus_schedule.length; i++) {
-      switch (schedule.Bus_schedule[i].min) {
+    schedule.Bus_schedule.map(async (item, index) => {
+      switch (item.min) {
         case 0: {
-          home_bustime.push(
-            schedule.Bus_schedule[i].hour +
-              ':' +
-              schedule.Bus_schedule[i].min +
-              '0',
-          );
+          home_bustime.push(item.hour + ':' + item.min + '0');
           break;
         }
         case 5: {
-          home_bustime.push(
-            schedule.Bus_schedule[i].hour +
-              ':' +
-              '0' +
-              schedule.Bus_schedule[i].min,
-          );
+          home_bustime.push(item.hour + ':' + '0' + item.min);
           break;
         }
         default: {
-          home_bustime.push(
-            schedule.Bus_schedule[i].hour + ':' + schedule.Bus_schedule[i].min,
-          );
+          home_bustime.push(item.hour + ':' + item.min);
         }
       }
-      const {data} = await getArrivalTime(home_bustime[i], '하교');
+      const {data} = await getArrivalTime(home_bustime[index], '하교');
       duration.push(data.routes[0].sections[0].duration);
-    }
+    });
+    // for (let i = 0; i < schedule.Bus_schedule.length; i++) {
+    //   switch (schedule.Bus_schedule[i].min) {
+    //     case 0: {
+    //       home_bustime.push(
+    //         schedule.Bus_schedule[i].hour +
+    //           ':' +
+    //           schedule.Bus_schedule[i].min +
+    //           '0',
+    //       );
+    //       break;
+    //     }
+    //     case 5: {
+    //       home_bustime.push(
+    //         schedule.Bus_schedule[i].hour +
+    //           ':' +
+    //           '0' +
+    //           schedule.Bus_schedule[i].min,
+    //       );
+    //       break;
+    //     }
+    //     default: {
+    //       home_bustime.push(
+    //         schedule.Bus_schedule[i].hour + ':' + schedule.Bus_schedule[i].min,
+    //       );
+    //     }
+    //   }
+    //   const {data} = await getArrivalTime(home_bustime[i], '하교');
+    //   duration.push(data.routes[0].sections[0].duration);
+    // }
 
     return new Promise((resolve, reject) => {
       if (resolve) {
