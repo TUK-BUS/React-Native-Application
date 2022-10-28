@@ -34,8 +34,12 @@ export const CalcArrivalTime = (time: string, remain: number): string => {
 
 export const checkDest = (dest: '등교' | '하교'): 0 | 1 | 2 => {
   const day: string = moment().format('ddd');
-  if (day === 'Sat' || 'Sun') {
-    return 0;
+
+  switch (day) {
+    case 'Sat':
+      return 0;
+    case 'Sun':
+      return 0;
   }
 
   switch (dest) {
@@ -71,7 +75,7 @@ const checkHour_Univ = () => {
       const flag = checkMinute(hour);
       return flag;
     }
-    case hour > 17 && hour < 22: {
+    case hour >= 17 && hour < 22: {
       const flag = 2;
       return flag;
     }
