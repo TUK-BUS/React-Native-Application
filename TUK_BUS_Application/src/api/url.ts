@@ -36,6 +36,7 @@ export const server_url = {
   goUniv: `http://${server_ip}/api/getSchedule/toTuk`,
   goHome: `http://${server_ip}/api/getSchedule/toStation`,
   entire_schedule: `http://${server_ip}/api/getSchedule/all`,
+  login: `http://${server_ip}/api/logintest`,
 };
 
 export const all_schedule_url = (day: string): string => {

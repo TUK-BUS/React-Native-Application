@@ -2,11 +2,12 @@ import 'react-native-gesture-handler';
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {RootStackParamList} from './types/navigation/types';
+import {RootStackParamList2} from './types/navigation/types';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import TabScreen from './src/component/navigation/TabScreen';
 import {StatusBar} from 'react-native';
-const Stack = createNativeStackNavigator<RootStackParamList>();
+import StackTabs from './src/component/navigation/StackTabs';
+const Stack = createNativeStackNavigator<RootStackParamList2>();
 
 function App() {
   return (
@@ -20,8 +21,9 @@ function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name="TabScreen"
-            component={TabScreen}
+            //바꿨음
+            name="StackTabs"
+            component={StackTabs}
             options={{headerShown: false}}
           />
         </Stack.Navigator>
