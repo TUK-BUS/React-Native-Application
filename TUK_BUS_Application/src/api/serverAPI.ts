@@ -18,3 +18,14 @@ export function getEntireSchedule(
   const baseurl = all_schedule_url(day);
   return axios.get(baseurl);
 }
+
+export const loginUser = async (reqData: any) => {
+  try {
+    const baseurl = server_url.login;
+    const response = await axios.post(baseurl, reqData);
+    console.log('~~~~loginUser response', response.data);
+    return response.data;
+  } catch (e) {
+    console.log('~~~~~~~~loginUser API error ~~~~~~~', e);
+  }
+};
