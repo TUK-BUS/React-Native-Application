@@ -14,7 +14,7 @@ export default function TabScreen(): ReactElement {
     <Tab.Navigator
       initialRouteName="등교"
       screenOptions={({route}) => ({
-        headerShown:false,
+        headerShown: false,
         tabBarLabel: route.name,
         tabBarIcon: ({focused}) => TabBarIcon(focused, route.name),
         tabBarLabelPosition: 'below-icon',
