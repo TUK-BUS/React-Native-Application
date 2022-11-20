@@ -19,13 +19,20 @@ export function getEntireSchedule(
   return axios.get(baseurl);
 }
 
-export const loginUser = async (reqData: any) => {
-  try {
-    const baseurl = server_url.login;
-    const response = await axios.post(baseurl, reqData);
-    console.log('~~~~loginUser response', response.data);
-    return response.data;
-  } catch (e) {
-    console.log('~~~~~~~~loginUser API error ~~~~~~~', e);
-  }
+export const loginUser = async (reqData: loginBody) => {
+  console.log('loginUser param: ', reqData);
+  return await axios
+    .post(server_url.login, reqData)
+    .then(response => {
+      console.log('loginUser response: ', response);
+      return response.data;
+    })
+    .catch(error => {
+      console.log('loginUser error: ', error);
+    });
+};
+
+type loginBody = {
+  userID: string;
+  userPW: string;
 };
