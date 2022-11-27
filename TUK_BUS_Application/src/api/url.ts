@@ -37,6 +37,8 @@ export const server_url = {
   goHome: `http://${server_ip}/api/getSchedule/toStation`,
   entire_schedule: `http://${server_ip}/api/getSchedule/all`,
   login: `http://${server_ip}/api/user/login`,
+  register_authMail: `http://${server_ip}/api/user/register/authmail`,
+  authMail_check: `http://${server_ip}/api/user/register/authmail/check`,
 };
 
 export const all_schedule_url = (day: string): string => {

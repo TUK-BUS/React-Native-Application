@@ -3,10 +3,11 @@ import {Alert, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {LoginProps} from '../../../../types/navigation/types';
 import styles from './Register_style';
+import {registerAuthMail, registerAuthMailCheck} from '../../../api/serverAPI';
 
 const Register: React.FC<LoginProps> = ({navigation}) => {
   const [id, setId] = useState<string>('');
-  const [cn, setCn] = useState<string>('');
+  const [checkNum, setCheckNum] = useState<string>('');
   const [pw, setPw] = useState<string>('');
   const [pwcf, setPwcf] = useState<string>('');
   const [Securepw, setSecurepw] = useState<boolean>(true);
@@ -16,6 +17,7 @@ const Register: React.FC<LoginProps> = ({navigation}) => {
   const [username, setUsername] = useState<string>('');
   const [Isconfirm, setIsconfirm] = useState<boolean>(false);
   const [IsButton, setIsButton] = useState<boolean>(false);
+  const [isCheck, setIsCheck] = useState<boolean>(false);
 
   useEffect(() => {
     if (id.length > 5 && pw.length > 5 && username.length > 1) {
@@ -23,30 +25,60 @@ const Register: React.FC<LoginProps> = ({navigation}) => {
     } else setIsButton(false);
   }, [id, pw, username]);
 
-  const checkConfirm = () => {
-    var testnum = 1234;
-    if (!Isconfirm) {
-      if (parseInt(cn) == testnum) {
-        setIsconfirm(true);
-        Alert.alert('성공', '인증이 완료되었습니다.');
-        navigation.goBack();
-      } else Alert.alert('실패', '인증번호가 일치하지 않습니다.');
-    } else Alert.alert('알림', '이미 인증되었습니다.');
+  const getRegisterAuthMail = async () => {
+    try {
+      const response = await registerAuthMail({
+        userEmail: id + '@tukorea.ac.kr',
+      });
+      console.log('Register.tsx ~ line 31 ~ response ', response);
+      if (!response.success) {
+        Alert.alert('실패');
+      }
+    } catch (e) {
+      console.log('Register.tsx ~ line 33 ~ error ', e);
+    }
   };
 
+  const getAuthNumCheck = async () => {
+    try {
+      const response = await registerAuthMailCheck({
+        userEmail: id + '@tukorea.ac.kr',
+        mail_authNum: checkNum,
+      });
+      if (!response.success) {
+        Alert.alert('실패', '인증번호가 틀렸습니다\n다시 입력해주세요.');
+      }
+    } catch (e) {
+      console.log('getAuthNumCheck ~ line 52 ~ error', e);
+    }
+  };
+
+  // const checkConfirm = () => {
+  //   var testnum = 1234;
+  //   if (!Isconfirm) {
+  //     if (parseInt(cn) == testnum) {
+  //       setIsconfirm(true);
+  //       Alert.alert('성공', '인증이 완료되었습니다.');
+  //       navigation.goBack();
+  //     } else Alert.alert('실패', '인증번호가 일치하지 않습니다.');
+  //   } else Alert.alert('알림', '이미 인증되었습니다.');
+  // };
+
   const checkRegister = () => {
-    var Ischeck = false;
+    // let Ischeck = false;
     if (IsButton) {
-      if (!Isconfirm) {
-        Ischeck = false;
-        Alert.alert('실패', '인증번호 확인이 완료되지 않았습니다.');
+      if (!Isconfirm || pw !== pwcf) {
+        // Ischeck = false;
+        setIsCheck(false);
+        const alertMessage =
+          pw !== pwcf
+            ? '재입력한 비밀번호가 일치하지 않습니다.'
+            : '인증번호 확인이 완료되지 않았습니다.';
+        Alert.alert('실패', alertMessage);
         console.log('failed_1');
-      } else if (pw !== pwcf) {
-        Ischeck = false;
-        Alert.alert('실패', '재입력한 비밀번호가 일치하지 않습니다.');
-        console.log('failed_2');
       } else {
-        Ischeck = true;
+        // Ischeck = true;
+        setIsCheck(true);
         console.log('successed');
       }
     }
@@ -65,7 +97,7 @@ const Register: React.FC<LoginProps> = ({navigation}) => {
             editable={!Isconfirm}
           />
           <Text style={styles.fonts0}>@ tukorea.ac.kr</Text>
-          <TouchableOpacity style={styles.Button} onPress={() => {}}>
+          <TouchableOpacity style={styles.Button} onPress={getRegisterAuthMail}>
             <Text style={[styles.fonts0, {color: 'white'}]}>전송</Text>
           </TouchableOpacity>
         </View>
@@ -74,12 +106,12 @@ const Register: React.FC<LoginProps> = ({navigation}) => {
           <TextInput
             style={styles.TextInput}
             autoFocus
-            onChangeText={setCn}
-            value={cn}
+            onChangeText={setCheckNum}
+            value={checkNum}
             maxLength={4}
             keyboardType="number-pad"
           />
-          <TouchableOpacity style={styles.Button} onPress={checkConfirm}>
+          <TouchableOpacity style={styles.Button} onPress={getAuthNumCheck}>
             <Text style={[styles.fonts0, {color: 'white'}]}>확인</Text>
           </TouchableOpacity>
         </View>
