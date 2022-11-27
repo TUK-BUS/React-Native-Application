@@ -1,8 +1,9 @@
 import React, {ReactElement} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import LoginScreen from '../pages/LoginScreen';
+import LoginScreen from '../pages/Login/LoginScreen';
 import DrawerNavigation from './Drawer';
+import Register from '../pages/Register/Register'
 
 import {StackParamList} from '../../../types/navigation/types';
 // import TestPage02 from '../pages/testpages/TestPage02';
@@ -20,6 +21,11 @@ export default function StackTabs(): ReactElement {
         options={{headerShown: true}}
         name="로그인"
         component={LoginScreen}
+      />
+      <Stack.Screen
+        options={{headerShown: true}}
+        name="계정생성"
+        component={Register}
       />
     </Stack.Navigator>
   );

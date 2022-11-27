@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
-import {DrawerContentScrollView, DrawerItem} from '@react-navigation/drawer';
-import {StyleSheet, Dimensions} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-const width = Dimensions.get('window').width * 0.3;
+import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
+import React, { useEffect, useState } from 'react';
+import { Text, TouchableOpacity, View } from 'react-native';
+import styles from './CustomDrawerContent_style';
 
 export default function CustomDrawerContent(props: any) {
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -44,43 +42,43 @@ export default function CustomDrawerContent(props: any) {
 
   return (
     <DrawerContentScrollView {...props}>
-      <View style={styles.drawertopcontainer}>
-        <View style={styles.drawerprofile}></View>
+      <View style={styles.TopContainer}>
+        <View style={styles.Profile}></View>
         {isLogin ? ( // 로그인 상태일경우 닉네임, 아닐경우 로그인 이동 버튼
-          <Text style={styles.drawernamefonts}>UserNickname</Text>
+          <Text style={styles.fonts4}>UserNickname</Text>
         ) : (
           <TouchableOpacity
             onPress={() => {
               props.navigation.navigate('로그인');
             }}>
-            <Text style={styles.drawernamefonts}>로그인이 필요합니다</Text>
+            <Text style={styles.fonts4}>로그인이 필요합니다</Text>
           </TouchableOpacity>
         )}
       </View>
-      <View style={styles.drawermiddlecontainer}>
+      <View style={styles.MiddleContainer}>
         <DrawerItem
           label="제 1캠퍼스"
-          labelStyle={styles.drawermenufonts}
+          labelStyle={styles.fonts0}
           onPress={() => {
             props.navigation.navigate('본캠퍼스');
           }}
         />
         <DrawerItem
           label="제 2캠퍼스"
-          labelStyle={styles.drawermenufonts}
+          labelStyle={styles.fonts0}
           onPress={() => {
             props.navigation.navigate('제2캠퍼스');
           }}
         />
         <DrawerItem
           label="설정"
-          labelStyle={styles.drawermenufonts}
+          labelStyle={styles.fonts0}
           onPress={() => {
             props.navigation.navigate('설정');
           }}
         />
       </View>
-      <View style={styles.drawerbottomcontainer}>
+      <View style={styles.BottomContainer}>
         {isLogin ? (
           <TouchableOpacity
             onPress={() => {
@@ -88,7 +86,7 @@ export default function CustomDrawerContent(props: any) {
               AsyncStorage.clear();
               props.navigation.navigate('로그인');
             }}>
-            <Text style={styles.drawermenufonts}>로그아웃</Text>
+            <Text style={styles.fonts0}>로그아웃</Text>
           </TouchableOpacity>
         ) : (
           <View />
@@ -97,43 +95,3 @@ export default function CustomDrawerContent(props: any) {
     </DrawerContentScrollView>
   );
 }
-
-// stylesheet는 마지막에 합치기로^^
-const styles = StyleSheet.create({
-  drawertopcontainer: {
-    padding: 10,
-    borderBottomWidth: 1,
-  },
-  drawerprofile: {
-    width: width,
-    height: width,
-    margin: 6,
-    marginBottom: 15,
-    borderRadius: 90,
-    borderWidth: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  drawerimage: {
-    width: width - 2,
-    height: width - 2,
-    borderRadius: 90,
-  },
-  drawermiddlecontainer: {
-    padding: 8,
-    paddingBottom: '70%',
-    borderBottomWidth: 1,
-  },
-  drawerbottomcontainer: {
-    padding: 12,
-  },
-
-  drawernamefonts: {
-    fontSize: Dimensions.get('window').width / 24 + 4,
-    fontWeight: 'bold',
-  },
-  drawermenufonts: {
-    fontSize: Dimensions.get('window').width / 24,
-    fontWeight: 'bold',
-  },
-});

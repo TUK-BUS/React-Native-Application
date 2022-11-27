@@ -29,3 +29,15 @@ export const loginUser = async (reqData: any) => {
     console.log('~~~~~~~~loginUser API error ~~~~~~~', e);
   }
 };
+
+//임시
+export const registerUser = async (reqData: any) => {
+  try {
+    const baseurl = server_url.login;
+    const response = await axios.post(baseurl, reqData);
+    console.log('~~~~registerUser response', response.data);
+    return response.data;
+  } catch (e) {
+    console.log('~~~~~~~~registerUser API error ~~~~~~~', e);
+  }
+};

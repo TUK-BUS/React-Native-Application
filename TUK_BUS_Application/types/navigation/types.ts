@@ -66,6 +66,7 @@ export type StackParamList = {
   로그인: undefined;
   설정: undefined;
   Drawer: undefined;
+  계정생성: undefined;
 }; //StackTabs
 
 export type LoginProps = {

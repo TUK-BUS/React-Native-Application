@@ -1,16 +1,12 @@
 import React from 'react';
-import {Text, View, SafeAreaView} from 'react-native';
-import {StyleSheet, Dimensions} from 'react-native';
 
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-import CustomDrawerContent from './CustomDrawerContent';
-import Icons from 'react-native-vector-icons/Ionicons';
+import { DrawerParamList } from '../../../types/navigation/types';
 import TestPage01 from '../pages/testpages/TestPage01';
-import LoginScreen from '../pages/LoginScreen';
 import TestPage02 from '../pages/testpages/TestPage02';
 import TabScreen from './TabScreen';
-import {DrawerParamList} from '../../../types/navigation/types';
+import CustomDrawerContent from './CustomDrawerContent/CustomDrawerContent';
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
