@@ -1,16 +1,15 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Alert,
-  Keyboard,
-  Text,
+  Keyboard, Text,
   TextInput,
   TouchableOpacity,
   TouchableWithoutFeedback,
-  View,
+  View
 } from 'react-native';
-import {LoginProps} from '../../../../types/navigation/types';
-import {loginUser} from '../../../api/serverAPI';
+import { LoginProps } from '../../../../types/navigation/types';
+import { loginUser } from '../../../api/serverAPI';
 import styles from './Login_style';
 
 const LoginScreen: React.FC<LoginProps> = ({navigation}) => {
@@ -22,17 +21,15 @@ const LoginScreen: React.FC<LoginProps> = ({navigation}) => {
     if (id.length > 5 && pw.length > 5) {
       setIsButton(true);
     } else setIsButton(false);
-  }, [id, pw]);
+  }, [id, pw]);   // id, password 글자 수로 버튼 활성화
 
-  // 함수들은 나중에 분리할게^^
   const getLoginData = async () => {
     try {
       const response: any = await loginUser({
         userID: id,
         userPW: pw,
       });
-      // console.log('~~~~ LoginScreen ~~~ response', response);
-      console.log('~~~~~', response.success);
+      console.log('~~~~~ success? ~~~~', response.success);
       return response;
     } catch (error) {
       console.error('~~~~ LoginScreen ~~~~ error', error);
@@ -55,9 +52,9 @@ const LoginScreen: React.FC<LoginProps> = ({navigation}) => {
         const userInfo = JSON.parse(value);
         console.log('id:' + userInfo.userID);
         console.log('pw:' + userInfo.userPW);
+        console.log('name:' + userInfo.token.userNAME);
         console.log('token:' + userInfo.token);
       }
-      console.log('배출 완료');
     } catch (error) {
       console.log('~~~~ LoginScreen ~ AsyncStorage ~ error', error);
     }
@@ -69,7 +66,7 @@ const LoginScreen: React.FC<LoginProps> = ({navigation}) => {
       const data = {
         userID: id,
         userPW: pw,
-        token: loginResponse.token,
+        token: loginResponse.token, // token = username + access + refresh token
       };
       storeData(data);
       loadData();
@@ -79,8 +76,6 @@ const LoginScreen: React.FC<LoginProps> = ({navigation}) => {
       Alert.alert('실패', '로그인 정보가 잘못되었습니다.');
     }
   };
-
-  useEffect(() => {}, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -127,7 +122,5 @@ const LoginScreen: React.FC<LoginProps> = ({navigation}) => {
     </TouchableWithoutFeedback>
   );
 };
-
-// 나중에 합칠게^^
 
 export default LoginScreen;

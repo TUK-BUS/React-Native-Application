@@ -74,8 +74,9 @@ export type LoginProps = {
 }; //LoginScreen
 
 export type DrawerParamList = {
-  본캠퍼스: undefined;
+  제1캠퍼스: undefined;
   제2캠퍼스: undefined;
+  채팅: undefined;
   설정: undefined;
 };
 

@@ -14,9 +14,9 @@ export default function DrawerNavigation() {
   return (
     <Drawer.Navigator
       drawerContent={props => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen name="본캠퍼스" component={TabScreen} />
+      <Drawer.Screen name="제1캠퍼스" component={TabScreen} />
       <Drawer.Screen name="제2캠퍼스" component={TestPage01} />
-
+      <Drawer.Screen name="채팅" component={TestPage02} />
       <Drawer.Screen name="설정" component={TestPage02} />
     </Drawer.Navigator>
   );
