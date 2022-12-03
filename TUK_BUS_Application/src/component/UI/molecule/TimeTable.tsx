@@ -118,17 +118,17 @@ export default function TimeTable({route}: Props): ReactElement {
       </View>
     );
   } else {
-    return (
+    return (  // 배경색, 폰트 사이즈, 굵기 조정
       <View style={styles.timetable_container}>
         <DataTable>
-          <DataTable.Header>
-            <DataTable.Title>등교</DataTable.Title>
-            <DataTable.Title>하교</DataTable.Title>
+          <DataTable.Header style={{borderBottomWidth: 1, borderBottomColor: 'black'}}>
+            <DataTable.Title textStyle={styles.fonts_2}>등교</DataTable.Title>
+            <DataTable.Title textStyle={styles.fonts_2}>하교</DataTable.Title>
           </DataTable.Header>
           {day === 'weekday' && (
             <DataTable.Row>
-              <DataTable.Cell>08:40~10:20 상시운행</DataTable.Cell>
-              <DataTable.Cell>17:00~18:30 상시운행</DataTable.Cell>
+              <DataTable.Cell textStyle={styles.fonts_2}>08:40~10:20  상시운행</DataTable.Cell>
+              <DataTable.Cell textStyle={styles.fonts_2}>17:00~18:30  상시운행</DataTable.Cell>
             </DataTable.Row>
           )}
           <FlatList
@@ -136,7 +136,7 @@ export default function TimeTable({route}: Props): ReactElement {
             renderItem={({item}) => {
               return (
                 <DataTable.Row>
-                  <DataTable.Cell>{item.university}</DataTable.Cell>
+                  <DataTable.Cell textStyle={[styles.fonts_2, {fontWeight: 'normal'}]}>{item.university}</DataTable.Cell>
                   <DataTable.Cell>{item.station}</DataTable.Cell>
                 </DataTable.Row>
               );

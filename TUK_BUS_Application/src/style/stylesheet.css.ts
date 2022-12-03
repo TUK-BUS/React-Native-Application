@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -118,9 +118,10 @@ export const styles = StyleSheet.create({
   },
   timetable_container: {
     flex: 1,
+    backgroundColor: 'white',
     flexDirection: 'row',
-    marginRight: 20,
-    marginLeft: 20,
+    paddingRight: 20,
+    paddingLeft: 20,
   },
   touchable: {
     flex: 1,
@@ -197,5 +198,15 @@ export const styles = StyleSheet.create({
   image: {
     width: 400,
     height: 400,
+  },
+  fonts4: {
+    fontSize: Dimensions.get('window').width / 24 + 4,
+    color: 'black',
+    fontWeight: 'bold',
+  },
+  fonts_2: {
+    fontSize: Dimensions.get('window').width / 24 - 2,
+    color: 'black',
+    fontWeight: 'bold',
   },
 });

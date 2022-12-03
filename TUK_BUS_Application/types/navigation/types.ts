@@ -66,6 +66,7 @@ export type StackParamList = {
   로그인: undefined;
   설정: undefined;
   Drawer: undefined;
+  계정생성: undefined;
 }; //StackTabs
 
 export type LoginProps = {
@@ -73,8 +74,9 @@ export type LoginProps = {
 }; //LoginScreen
 
 export type DrawerParamList = {
-  본캠퍼스: undefined;
+  제1캠퍼스: undefined;
   제2캠퍼스: undefined;
+  채팅: undefined;
   설정: undefined;
 };
 
