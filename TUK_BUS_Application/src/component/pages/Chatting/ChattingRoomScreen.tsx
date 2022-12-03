@@ -6,7 +6,7 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useLayoutEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import io from 'socket.io-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,11 +14,11 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import dayjs from 'dayjs';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParam} from '../App';
-import {server_ip} from '../../.env/auth';
+import {socket_ip} from '../../../../.env/auth';
 
-export type ChattingRoomProp = StackScreenProps<RootStackParam, 'ChattingRoom'>;
+// export type ChattingRoomProp = StackScreenProps<RootStackParam, 'ChattingRoom'>;
 
-const ChattingRoom = ({navigation, route}: ChattingRoomProp) => {
+const ChattingRoom = ({navigation, route}: any) => {
   const [message, setMessage] = useState('');
   const [chatting, setChatting] = useState<object[]>([]);
   const scrollRef = useRef<any>();
@@ -26,7 +26,7 @@ const ChattingRoom = ({navigation, route}: ChattingRoomProp) => {
 
   useEffect(() => {
     AsyncStorage.getItem('token').then((response: any) => {
-      socket.current = io(`http:///chat`, {
+      socket.current = io(socket_ip, {
         auth: {
           token: response,
           //roomID 서버에서 준거
@@ -52,7 +52,7 @@ const ChattingRoom = ({navigation, route}: ChattingRoomProp) => {
   }, []);
 
   const onSubmit = () => {
-    if (message != '') {
+    if (message !== '') {
       socket.current.emit('chat message', {
         userID: route.params.name,
         msg: message,

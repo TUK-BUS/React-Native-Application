@@ -17,12 +17,13 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParam} from '../App';
-import {server_ip} from '../../.env/auth';
+import {server_ip} from '../../../../.env/auth';
+import {getChattingRoom} from '../../../api/serverAPI';
 
-export type ChattingRoomListProp = StackScreenProps<
-  RootStackParam,
-  'ChattingRoomList'
->;
+// export type ChattingRoomListProp = StackScreenProps<
+//   RootStackParam,
+//   'ChattingRoomList'
+// >;
 
 type CreateRoom = {
   startingPoint: string;
@@ -32,7 +33,7 @@ type CreateRoom = {
   userCount: number;
 };
 
-const ChattingRoomList = ({navigation, route}: ChattingRoomListProp) => {
+const ChattingRoomList = ({navigation, route}: any) => {
   const [roomList, setRoomList] = useState([]);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [startingPoint, setStartingPoint] = useState<string>('');
@@ -43,27 +44,38 @@ const ChattingRoomList = ({navigation, route}: ChattingRoomListProp) => {
     getChattingRooms();
   }, []);
 
-  const getChattingRooms = () => {
-    AsyncStorage.getItem('token').then((response: any) => {
-      const token = response;
-      if (token) {
-        axios
-          .get(`http://${server_ip}/api/chatting/getchatlist`, {
-            headers: {
-              authorization: token,
-            },
-          })
-          .then(Response => {
-            console.log('getchatting', Response.data);
-            setRoomList(Response.data.message);
-          })
-          .catch(Error => console.log('getchatting', Error));
-      }
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        <TouchableOpacity
+          style={styles.headerIcon}
+          onPress={() => {
+            setModalVisible(true);
+          }}>
+          <MaterialCommunityIcons
+            name="chat-plus-outline"
+            size={30}
+            color="black"
+          />
+        </TouchableOpacity>;
+      },
     });
+  });
+
+  const getChattingRooms = async () => {
+    try {
+      const response = await getChattingRoom();
+      console.log(response);
+      if (response.message.length() !== 0) {
+        setRoomList(response.message);
+      }
+    } catch (e) {
+      console.log('ChattingRoomListScreen ~ getChattingRooms ~ error ~', e);
+    }
   };
 
   const createRoom = async () => {
-    AsyncStorage.getItem('token').then((response: any) => {
+    AsyncStorage.getItem('token.accessToken').then((response: any) => {
       const token = response;
       if (token) {
         axios
@@ -86,7 +98,7 @@ const ChattingRoomList = ({navigation, route}: ChattingRoomListProp) => {
             setStartingPoint('');
             setArrivalPoint('');
             setModalVisible(!modalVisible);
-            navigation.navigate('ChattingRoom', {
+            navigation.navigate('채팅방', {
               name: route.params.name,
               roomID: Response.data.message.roomID,
               startingPoint: startingPoint,
@@ -207,9 +219,7 @@ const ChattingRoomList = ({navigation, route}: ChattingRoomListProp) => {
               onChangeText={e => setStartingTime(e)}></TextInput>
             <Pressable
               style={[styles.button, styles.buttonClose]}
-              onPress={() => {
-                createRoom();
-              }}>
+              onPress={createRoom}>
               <Text style={styles.textStyle}>생성</Text>
             </Pressable>
           </View>

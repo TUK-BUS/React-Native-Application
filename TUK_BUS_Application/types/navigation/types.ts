@@ -80,6 +80,11 @@ export type DrawerParamList = {
   설정: undefined;
 };
 
+export type ChattingParamList = {
+  채팅목록: undefined;
+  채팅방: undefined;
+};
+
 export type DrawerProps = {
   props: DrawerNavigationProp<DrawerParamList>;
 };

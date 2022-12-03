@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios, {AxiosResponse} from 'axios';
 import {allSchedule, liveSchedule} from '../../types/api/awsapiType';
 import {all_schedule_url, server_url} from './url';
@@ -85,7 +86,25 @@ export const checkId = async (reqData: any) => {
     return response.data.success;
   } catch (e) {
     console.log('~~~~~~~~checkId API error ~~~~~~~', e);
-  }   // id 중복 여부 체크
+  } // id 중복 여부 체크
+};
+
+export const getChattingRoom = async () => {
+  try {
+    const baseurl = server_url.getChattingRoom;
+    const value: any = await AsyncStorage.getItem('userInfo');
+    const userInfo = JSON.parse(value);
+    console.log('token', userInfo.token.accessToken);
+    const response = await axios.get(baseurl, {
+      headers: {
+        authorization: userInfo.token.accessToken,
+      },
+    });
+    console.log('serverAPI.ts ~ getChattingRoom ~ response~ ', response.data);
+    return response.data;
+  } catch (e) {
+    console.log('serverAPI.ts ~ getChattingRoom ~ error~ ', e);
+  }
 };
 
 // 할 일(기록용)
