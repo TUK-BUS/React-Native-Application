@@ -15,8 +15,6 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParam} from '../App';
 import {server_ip} from '../../../../.env/auth';
 import {getChattingRoom} from '../../../api/serverAPI';
 
@@ -44,23 +42,23 @@ const ChattingRoomList = ({navigation, route}: any) => {
     getChattingRooms();
   }, []);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        <TouchableOpacity
-          style={styles.headerIcon}
-          onPress={() => {
-            setModalVisible(true);
-          }}>
-          <MaterialCommunityIcons
-            name="chat-plus-outline"
-            size={30}
-            color="black"
-          />
-        </TouchableOpacity>;
-      },
-    });
-  });
+  // useEffect(() => {
+  //   navigation.setOptions({
+  //     headerRight: () => {
+  //       <TouchableOpacity
+  //         style={styles.headerIcon}
+  //         onPress={() => {
+  //           setModalVisible(true);
+  //         }}>
+  //         <MaterialCommunityIcons
+  //           name="chat-plus-outline"
+  //           size={30}
+  //           color="black"
+  //         />
+  //       </TouchableOpacity>;
+  //     },
+  //   });
+  // });
 
   const getChattingRooms = async () => {
     try {
