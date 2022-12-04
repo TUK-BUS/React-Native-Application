@@ -12,8 +12,6 @@ import io from 'socket.io-client';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import dayjs from 'dayjs';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParam} from '../App';
 import {socket_ip} from '../../../../.env/auth';
 
 // export type ChattingRoomProp = StackScreenProps<RootStackParam, 'ChattingRoom'>;

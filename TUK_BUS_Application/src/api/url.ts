@@ -42,6 +42,7 @@ export const server_url = {
   authMail_check: `http://${server_ip}/api/user/register/authmail/check`,
   idCheck: `http://${server_ip}/api/user/register/idCheck`,
   getChattingRoom: `http://${server_ip}/api/chatting/getchatlist`,
+  createChattingRoom: `http://${server_ip}/api/chatting/createchatroom`,
 };
 
 export const all_schedule_url = (day: string): string => {

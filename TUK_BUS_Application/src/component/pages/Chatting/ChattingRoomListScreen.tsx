@@ -13,10 +13,7 @@ import React, {useState, useEffect} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {server_ip} from '../../../../.env/auth';
-import {getChattingRoom} from '../../../api/serverAPI';
+import {getChattingRoom, createChattingRoom} from '../../../api/serverAPI';
 
 // export type ChattingRoomListProp = StackScreenProps<
 //   RootStackParam,
@@ -42,24 +39,6 @@ const ChattingRoomList = ({navigation, route}: any) => {
     getChattingRooms();
   }, []);
 
-  // useEffect(() => {
-  //   navigation.setOptions({
-  //     headerRight: () => {
-  //       <TouchableOpacity
-  //         style={styles.headerIcon}
-  //         onPress={() => {
-  //           setModalVisible(true);
-  //         }}>
-  //         <MaterialCommunityIcons
-  //           name="chat-plus-outline"
-  //           size={30}
-  //           color="black"
-  //         />
-  //       </TouchableOpacity>;
-  //     },
-  //   });
-  // });
-
   const getChattingRooms = async () => {
     try {
       const response = await getChattingRoom();
@@ -73,49 +52,72 @@ const ChattingRoomList = ({navigation, route}: any) => {
   };
 
   const createRoom = async () => {
-    AsyncStorage.getItem('token.accessToken').then((response: any) => {
-      const token = response;
-      if (token) {
-        axios
-          .post(
-            `http://${server_ip}/api/chatting/createchatroom`,
-            {
-              startingPoint: startingPoint,
-              arrivalPoint: arrivalPoint,
-              startingTime: startingTime,
-              userID: route.params.name,
-            },
-            {
-              headers: {
-                authorization: token,
-              },
-            },
-          )
-          .then(Response => {
-            setStartingTime('');
-            setStartingPoint('');
-            setArrivalPoint('');
-            setModalVisible(!modalVisible);
-            navigation.navigate('채팅방', {
-              name: route.params.name,
-              roomID: Response.data.message.roomID,
-              startingPoint: startingPoint,
-              arrivalPoint: arrivalPoint,
-            });
-          })
-          .catch(Error => {
-            console.log('create error ', Error);
-            setStartingTime('');
-            setStartingPoint('');
-            setArrivalPoint('');
-          });
-      }
-    });
+    //AsyncStorage.getItem('token.accessToken').then((response: any) => {
+    //  const token = response;
+    //  if (token) {
+    //    axios
+    //      .post(
+    //        `http://${server_ip}/api/chatting/createchatroom`,
+    //        {
+    //          startingPoint: startingPoint,
+    //          arrivalPoint: arrivalPoint,
+    //          startingTime: startingTime,
+    //          userID: route.params.name,
+    //        },
+    //        {
+    //          headers: {
+    //            authorization: token,
+    //          },
+    //        },
+    //      )
+    //      .then(Response => {
+    //        setStartingTime('');
+    //        setStartingPoint('');
+    //        setArrivalPoint('');
+    //        setModalVisible(!modalVisible);
+    //        navigation.navigate('채팅방', {
+    //          name: route.params.name,
+    //          roomID: Response.data.message.roomID,
+    //          startingPoint: startingPoint,
+    //          arrivalPoint: arrivalPoint,
+    //        });
+    //      })
+    //      .catch(Error => {
+    //        console.log('create error ', Error);
+    //        setStartingTime('');
+    //        setStartingPoint('');
+    //        setArrivalPoint('');
+    //      });
+    //  }
+    //});
+    try {
+      const data = {
+        startingPoint: startingPoint,
+        arrivalPoint: arrivalPoint,
+        startingTime: startingTime,
+        userID: route.params.name,
+      };
+      const response: any = await createChattingRoom(data);
+      navigation.navigate('채팅방', {
+        name: route.params.name,
+        roomID: response.data.message.roomID,
+        startingPoint: startingPoint,
+        arrivalPoint: arrivalPoint,
+      });
+      setStartingPoint('');
+      setArrivalPoint('');
+      setStartingTime('');
+    } catch (e) {
+      console.log('ChattingRoomListScreen ~ createRoom ~ error ~ ', e);
+      setStartingPoint('');
+      setArrivalPoint('');
+      setStartingTime('');
+    }
   };
 
   const enterRoom = (room: any) => {
     if (room.userCount < 3) {
-      navigation.navigate('ChattingRoom', {
+      navigation.navigate('채팅방', {
         roomID: room.roomID,
         startingPoint: room.startingPoint,
         arrivalPoint: room.arrivalPoint,

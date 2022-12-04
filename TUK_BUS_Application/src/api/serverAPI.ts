@@ -107,6 +107,31 @@ export const getChattingRoom = async () => {
   }
 };
 
+export const createChattingRoom = async (data: any) => {
+  try {
+    const baseurl = server_url.createChattingRoom;
+    const value: any = await AsyncStorage.getItem('userInfo');
+    const userInfo = JSON.parse(value);
+    const response = await axios.post(
+      baseurl,
+      {
+        startingPoint: data.startingPoint,
+        arrivalPoint: data.arrivalPoint,
+        startingTime: data.startingTime,
+        userID: data.userID,
+      },
+      {
+        headers: {
+          authorization: userInfo.token.accessToken,
+        },
+      },
+    );
+    return response;
+  } catch (e) {
+    console.log('serverAPI.ts ~ createChattingRoom ~ error ', e);
+  }
+};
+
 // 할 일(기록용)
 // success false => access + Refresh Token post
 // alert => modal (알림 추가)
